@@ -6,7 +6,7 @@ const Koordinator = () => {
   return (
     <div>
       {popUp ? 
-      <PopUpAddKoordinator />
+      <PopUpAddKoordinator popUp={popUp} setPopUp={setPopUp} />
       :null}
       <div class="container max-w-3xl px-4 mx-auto sm:px-8">
         <div class="py-8">

@@ -9,6 +9,7 @@ import Root from './routes/root';
 import Dashboard from './routes/dashboard';
 import reportWebVitals from './reportWebVitals';
 import InputData from './routes/inputData';
+import EditData from './routes/editData';
 import PengolahanData from './routes/pengolahanData';
 import ReportData from './routes/reportData';
 import Koordinator from './routes/koordinator';
@@ -39,13 +40,17 @@ const router = createBrowserRouter([
     path: "/koordinator",
     element: <Koordinator />,
   },
+  {
+    path: "/edit-data/:idKtp", 
+    element: <EditData />, 
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <body className='flex w-screen'>
-        <div class="w-2/12">
+        <div className="w-2/12">
           <Navigation />
         </div>
         <div className='w-10/12'>

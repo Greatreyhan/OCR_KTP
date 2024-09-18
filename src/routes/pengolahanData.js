@@ -1,13 +1,57 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const PengolahanData = () => {
+
+  // KTP Record Data
+  const [KTPRecord, setKTPRecord] = useState([])
+
+  // Get KTP Record
+  useEffect(() => {
+    // Fetching data from the API
+    fetch('http://localhost:4000/ktp', {
+      method: 'GET'
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.data)
+        setKTPRecord(data.data);
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  }, []);
+
+  const deleteKTPRecord = (idKtp)=>{
+      // Fetching data from the API
+    fetch('http://localhost:4000/ktp/'+idKtp, {
+      method: 'DELETE'
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.data)
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  }
+
   return (
     <div>
 
       <div class="container max-w-3xl px-4 mx-auto sm:px-8">
         <div class="py-8">
           <div class="flex flex-row justify-between w-full mb-1 sm:mb-0">
-          <h1 className='text-3xl font-black text-gray-400'>Data Pengguna</h1>
+            <h1 className='text-3xl font-black text-gray-400'>Data Pengguna</h1>
             <div class="text-end">
               <form class="flex flex-col justify-center w-3/4 max-w-sm space-y-3 md:flex-row md:w-full md:space-x-3 md:space-y-0">
                 <div class=" relative ">
@@ -44,48 +88,55 @@ const PengolahanData = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                      <div class="flex items-center">
-                        <div>
+                  {KTPRecord == [] ? null :
+                  KTPRecord.map((record)=>{
+                    return(
+                      <tr key={record.idktp}>
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                          <div class="flex items-center">
+                            <div>
+                              <p class="text-gray-900 whitespace-no-wrap">
+                                {record.nama}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <p class="text-gray-900 whitespace-no-wrap">
-                            Jean marc
+                          {record.nik}
                           </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                      <p class="text-gray-900 whitespace-no-wrap">
-                        21060120120032
-                      </p>
-                    </td>
-                    <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                      <p class="text-gray-900 whitespace-no-wrap">
-                        Demak
-                      </p>
-                    </td>
-                    <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                      <p class="text-gray-900 whitespace-no-wrap">
-                        Mranggen
-                      </p>
-                    </td>
-                    <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                      <span class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                        <span aria-hidden="true" class="absolute inset-0 bg-green-200 rounded-full opacity-50">
-                        </span>
-                        <span class="relative">
-                          active
-                        </span>
-                      </span>
-                    </td>
-                    <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                      <a href="#" class="text-indigo-600 hover:text-indigo-900">
-                        Detail
-                      </a>
-                    </td>
-                  </tr>
+                        </td>
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                          <p class="text-gray-900 whitespace-no-wrap">
+                          {record.kelurahan}
+                          </p>
+                        </td>
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                          <p class="text-gray-900 whitespace-no-wrap">
+                          {record.kecamatan}
+                          </p>
+                        </td>
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                          <span class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
+                            <span aria-hidden="true" class="absolute inset-0 bg-green-200 rounded-full opacity-50">
+                            </span>
+                            <span class="relative">
+                              active
+                            </span>
+                          </span>
+                        </td>
+                        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                          <a href="#" class="text-indigo-600 hover:text-indigo-900">
+                            Detail
+                          </a>
+                        </td>
+                      </tr>
+                      )
+                  })
+                  }
 
-                  
+
+
                 </tbody>
               </table>
               <div class="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between">
